@@ -1,10 +1,23 @@
 from retell import Retell
 import os
+from dotenv import load_dotenv
 
+# Load environment variables
+load_dotenv()
 
-client = Retell(
-    api_key=os.getenv("RETELL_API_KEY"),
-)
+# Initialize Retell client with error handling
+def get_client():
+    api_key = os.getenv("RETELL_API_KEY")
+    if not api_key:
+        raise ValueError("RETELL_API_KEY environment variable is not set")
+    return Retell(api_key=api_key)
+
+# Initialize client
+try:
+    client = get_client()
+except Exception as e:
+    print(f"Error initializing Retell client: {str(e)}")
+    raise
 
 def getCallObject(call_id):
     call_response = client.call.retrieve(call_id)
