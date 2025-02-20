@@ -1,9 +1,0 @@
-[server]
-# If you need to run on a specific port
-port = 8501
-
-[theme]
-primaryColor = "#2e6fdf"
-backgroundColor = "#ffffff"
-secondaryBackgroundColor = "#f0f2f6"
-textColor = "#262730" 
