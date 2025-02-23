@@ -1,4 +1,0 @@
-retell
-os
-dotenv
-streamlit
