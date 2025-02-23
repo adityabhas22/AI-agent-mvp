@@ -82,7 +82,51 @@ if st.session_state.view == "call_details":
         with tab2:
             try:
                 transcript = retell_api.getCallTranscript(st.session_state.call_id)
-                st.write(transcript)
+                
+                # Add custom CSS for transcript messages
+                st.markdown("""
+                    <style>
+                    .agent-message {
+                        background-color: rgba(64, 153, 255, 0.1);
+                        border-left: 3px solid #4099ff;
+                        padding: 0.5rem 1rem;
+                        margin: 0.3rem 0;
+                        border-radius: 0.3rem;
+                    }
+                    .user-message {
+                        background-color: rgba(128, 128, 128, 0.1);
+                        border-left: 3px solid #808080;
+                        padding: 0.5rem 1rem;
+                        margin: 0.3rem 0;
+                        border-radius: 0.3rem;
+                    }
+                    .message-text {
+                        margin: 0;
+                        font-size: 0.95rem;
+                    }
+                    </style>
+                """, unsafe_allow_html=True)
+                
+                # Display transcript with alternating styles
+                if transcript:
+                    messages = transcript.split('\n')
+                    for message in messages:
+                        if message.strip():  # Skip empty lines
+                            if message.startswith('Agent:'):
+                                st.markdown(
+                                    f'<div class="agent-message"><p class="message-text">💬 {message}</p></div>', 
+                                    unsafe_allow_html=True
+                                )
+                            elif message.startswith('User:'):
+                                st.markdown(
+                                    f'<div class="user-message"><p class="message-text">👤 {message}</p></div>', 
+                                    unsafe_allow_html=True
+                                )
+                            else:
+                                st.text(message)  # For any other text
+                else:
+                    st.info("No transcript available for this call")
+                    
             except Exception as e:
                 st.error("Error loading transcript")
                 st.write(str(e))
