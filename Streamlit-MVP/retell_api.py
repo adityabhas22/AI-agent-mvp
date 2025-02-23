@@ -1,9 +1,15 @@
 from retell import Retell
 import os
+import streamlit as st
 
+# Check for API key
+api_key = os.getenv("RETELL_API_KEY")
+if not api_key:
+    st.error("⚠️ Retell API key not found. Please set the RETELL_API_KEY environment variable.")
+    st.stop()
 
 client = Retell(
-    api_key=os.getenv("RETELL_API_KEY"),
+    api_key=api_key,
 )
 
 def getCallObject(call_id):
