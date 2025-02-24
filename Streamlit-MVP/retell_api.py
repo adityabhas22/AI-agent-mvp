@@ -4,31 +4,18 @@ import streamlit as st
 
 # Check for API key
 api_key = os.getenv("RETELL_API_KEY")
-st.write("Debug: Checking for API key...")  # Debug log
 
-if not api_key:
-    st.error("⚠️ Retell API key not found. Please set the RETELL_API_KEY environment variable.")
-    st.stop()
-else:
-    st.write(f"Debug: API key found (length: {len(api_key)})")  # Debug log
 
-try:
-    st.write("Debug: Initializing Retell client...")  # Debug log
-    client = Retell(
-        api_key=api_key,
-    )
-    st.write("Debug: Retell client initialized successfully")  # Debug log
-except Exception as e:
-    st.error(f"Failed to initialize Retell client: {str(e)}")
-    st.stop()
+client = Retell(
+    api_key=api_key,
+)
+
 
 def getCallObject(call_id):
     try:
-        st.write(f"Debug: Retrieving call {call_id}")  # Debug log
         call_response = client.call.retrieve(call_id)
         return call_response
     except Exception as e:
-        st.error(f"Error in getCallObject: {str(e)}")
         raise e
 
 def getCallSummary(call_id):
